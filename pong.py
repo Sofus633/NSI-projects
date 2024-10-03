@@ -30,7 +30,7 @@ class Pong:
                         self.player2.position[1] -= 100
             self.ball.update()
             self.display()
-            self.ball.collision(self.player1, self.player2)
+            self.ball.collition(self.player1, self.player2)
             time.sleep(.1)
         
     def display(self):
@@ -45,6 +45,7 @@ class Player:
         self.position = position
         self.size = 100
         self.surface = pygame.Rect(self.position[0], self.position[1], 10, self.size)
+        self.score = 0
     def update(self):
         pass
 
@@ -59,17 +60,18 @@ class Ball:
     def update(self):
         self.position = self.velocity[0] + self.position[0], self.velocity[1] + self.position[1]
 
-    def collision(self, player1, player2):
-        if self.position[1] <= 0 or self.position[1] >= 500:
-            self.velocity = (self.velocity[0], -self.velocity[1]) 
+    def collition(self, player1, player2):            
+        if self.surface.colliderect(player1.surface) or self.surface.colliderect(player2.surface):
+            print("uisfdmiuqbmdiu")
+            self.velocity = -self.ball.velocity
+        if self.surface.left <= 0:
+            player2.score += 1
+            print(player2.score)
+        if self.surface.left >= self.size*200: 
+            player1.score += 1
+            print(player1.score)
+        
 
-        if self.position[0] <= 10:
-            if player1.position[1] <= self.position[1] <= player1.position[1] + player1.size:
-                self.velocity = (-self.velocity[0], self.velocity[1]) 
-
-        if self.position[0] >= 490: 
-            if player2.position[1] <= self.position[1] <= player2.position[1] + player2.size:
-                self.velocity = (-self.velocity[0], self.velocity[1])  
 
     
 if __name__ == "__main__":

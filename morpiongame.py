@@ -3,6 +3,7 @@ import pygame
 import time
 
 
+
 class MorpionGame:
     def __init__(self, screen, size ) -> None:
         self.screen = screen
@@ -11,7 +12,6 @@ class MorpionGame:
         self.player2 = Player(2)
         self.running = True
         self.tour = self.player1
-        print((self.size * 200, self.size * 200))
         pygame.init()
         self.screen = pygame.display.set_mode((self.size * 200, self.size * 200))
         self.board = GameBoard(self.size, self.screen)
@@ -27,7 +27,6 @@ class MorpionGame:
                     pos = pygame.mouse.get_pos() 
                     boardpos = int(pos[0]/ 200) , int(pos[1] / 200)
                     a = self.placerpion2(boardpos[0], boardpos[1])
-                    print(a)
                     if a:
                         getinginp = False
         time.sleep(.1)  
@@ -35,10 +34,10 @@ class MorpionGame:
     
         
     def playeagame(self):
+        self.displatgrid()
         if self.running:
             self.board.displaygraphique()
-            
-            
+            self.displatgrid()
             self.getinputs()
                 
             if self.board.checkall() == False:
@@ -64,7 +63,11 @@ class MorpionGame:
             rendertext(f'Yey {self.player2.name if self.tour == self.player1 else self.player1.name} a gagner !', (255, 255, 255), (((self.size*200)/2) - 150, 100), self.screen )
             rendertext('Press enter to continue', (255, 255, 255), (100, 140), self.screen )
             pygame.display.flip()
-    
+            
+    def displatgrid(self):
+        for i in range(1, self.size):
+            pygame.draw.line(self.screen, (255, 255, 255), (i*200, 0), (i*200, self.size*200))
+            pygame.draw.line(self.screen, (255, 255, 255), (0, i*200), (self.size*200, i*200))
     def placerpion2(self, x, y):
         valid = self.board.placepion(x, y, self.tour)
         if valid == False:
@@ -209,5 +212,3 @@ class Player:
         self.name = "circle" if id == 1 else "cross"
         
     
-if __name__ == "__main__":
-    MorpionGame()
