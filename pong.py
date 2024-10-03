@@ -63,7 +63,7 @@ class Ball:
     def collition(self, player1, player2):            
         if self.surface.colliderect(player1.surface) or self.surface.colliderect(player2.surface):
             print("uisfdmiuqbmdiu")
-            self.velocity = -self.ball.velocity
+            self.velocity = -self.velocity
         if self.surface.left <= 0:
             player2.score += 1
             print(player2.score)
